@@ -1,0 +1,98 @@
+import static ApplicationProperties.*
+import static Dependencies.*
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.bironader.musicsearch"
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
+
+        buildConfigField("String", "GATWAY_KEY", GATEWAY_KEY)
+        buildConfigField("String", "BASE_URL", "\"http://staging-gateway.mondiamedia.com/\"")
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+
+
+    implementation KTS
+    implementation KOTLIN
+    implementation APP_COMPAT
+    implementation CONSTRAINT_LAYOUT
+    implementation HILT
+    implementation OKHTTP
+    implementation OKHTTP_LOGGING
+    implementation RETROFIT
+    implementation GSON
+    implementation GSON_CONVERTER
+    implementation TIMBER
+    implementation STETHO
+    implementation MATERIAL
+    implementation NAV_FRAGMENT
+    implementation NAV_UI
+    implementation GLIDE
+    implementation LIFE_CYLCE_VIEWMODEL
+    implementation LIFE_CYLCE_EXT
+    implementation LIVEDATA_EXT
+    implementation HILT_LIFE_CYCLE
+    implementation COROUTINES
+    implementation SWIPE_REFRESH
+    implementation ESPRESSO_IDLING_RESOURCE
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+
+    debugImplementation CHUCK
+    releaseImplementation CHUCK_NO_OP
+    kapt AnnotationProcessing.HILT_COMPILER
+    kapt AnnotationProcessing.HILT_LIFECYCLE_COMPLIER
+    kapt AnnotationProcessing.GLIDE_COMPILER
+
+    testImplementation TestDependencies.JUNIT
+    testImplementation TestDependencies.MOCKITO
+    testImplementation TestDependencies.ANDROID_ARC_TEST
+    testImplementation TestDependencies.COROUTINES_TEST
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    androidTestImplementation TestDependencies.ESPRESSO_CONT
+    androidTestImplementation TestDependencies.ESPRESSO
+    androidTestImplementation TestDependencies.TEST_CORE
+    androidTestImplementation TestDependencies.ANDROID_JUNIT_KTX
+    debugImplementation(TestDependencies.TEST_FRAGMENT) {
+        exclude group: 'androidx.test', module: 'monitor'
+    }
+}
