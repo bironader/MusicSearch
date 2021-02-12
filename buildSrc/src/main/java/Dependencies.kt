@@ -24,6 +24,7 @@ object Dependencies {
     const val LIFE_CYLCE_VIEWMODEL =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
     const val LIVEDATA_EXT = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
+    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
     const val SWIPE_REFRESH =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.SWIPE_REFRESH}"

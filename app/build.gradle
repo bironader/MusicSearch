@@ -69,6 +69,8 @@ dependencies {
     implementation LIVEDATA_EXT
     implementation HILT_LIFE_CYCLE
     implementation COROUTINES
+    implementation COROUTINES_CORE
+
     implementation SWIPE_REFRESH
     implementation ESPRESSO_IDLING_RESOURCE
 

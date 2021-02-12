@@ -1,4 +1,4 @@
-package com.bironader.musicsearch
+package com.bironader.musicsearch.framework.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.bironader.musicsearch.R
 import com.bironader.musicsearch.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAppBarWithNav() {
+        setSupportActionBar(binding.appBar)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.appBar

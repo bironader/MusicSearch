@@ -1,5 +1,9 @@
 package com.bironader.musicsearch.injection
 
+import com.bironader.musicsearch.busniness.repositories.abstraction.GetMusicRepository
+import com.bironader.musicsearch.busniness.repositories.impl.GetMusicRepoImpl
+import com.bironader.musicsearch.busniness.usecases.abstraction.GetMusicUseCase
+import com.bironader.musicsearch.busniness.usecases.impl.GetMusicUseCaseImpl
 import com.bironader.musicsearch.framework.datasource.remote.SearchService
 import com.bironader.musicsearch.framework.datasource.remote.abstraction.SearchDataSource
 import com.bironader.musicsearch.framework.datasource.remote.impl.SearchDataSourceImpl
@@ -25,4 +29,14 @@ class SearchProviderModule {
     @Provides
     fun providerSearchDataSource(searchService: SearchService): SearchDataSource =
         SearchDataSourceImpl(searchService)
+
+    @Singleton
+    @Provides
+    fun providerGetMusicRepo(searchDataSource: SearchDataSource): GetMusicRepository =
+        GetMusicRepoImpl(searchDataSource)
+
+    @Singleton
+    @Provides
+    fun providerGetMusicUseCase(getMusicRepo: GetMusicRepository): GetMusicUseCase =
+        GetMusicUseCaseImpl(getMusicRepo)
 }
