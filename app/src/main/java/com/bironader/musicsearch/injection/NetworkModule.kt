@@ -1,15 +1,21 @@
 package com.bironader.musicsearch.injection
 
 import android.app.Application
-import android.security.keystore.UserNotAuthenticatedException
 import com.bironader.musicsearch.BuildConfig
+import com.bironader.musicsearch.BuildConfig.GATWAY_KEY
 import com.bironader.musicsearch.Constant
-import com.bironader.musicsearch.Constant.AUTHORIZATION
-import com.bironader.musicsearch.busniness.repositories.abstraction.AuthenticationRepository
+import com.bironader.musicsearch.HeadersKey
+import com.bironader.musicsearch.HeadersKey.ACCEPT
+import com.bironader.musicsearch.HeadersKey.AUTHORIZATION
+import com.bironader.musicsearch.HeadersKey.CONTENT_TYPE
+import com.bironader.musicsearch.HeadersKey.GATEWAY_KEY
+import com.bironader.musicsearch.HeadersValue.APPLICATION_X_WWWW_FORM
+import com.bironader.musicsearch.HeadersValue.APP_JSON
+import com.bironader.musicsearch.HeadersValue.BEARER
 import com.bironader.musicsearch.framework.datasource.remote.AuthService
-import com.bironader.musicsearch.framework.datasource.remote.abstraction.AuthDataSource
 import com.bironader.musicsearch.framework.datasource.remote.abstraction.PrefDataSource
-import com.bironader.musicsearch.framework.utils.Utils
+import com.bironader.musicsearch.framework.datasource.remote.responses.Authentication
+import com.bironader.musicsearch.injection.Annotations.Requests
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -19,13 +25,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
@@ -43,25 +46,25 @@ class NetworkModule {
     private val baseUrl: String
         get() = BuildConfig.BASE_URL
 
+    @Requests
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(@Requests okHttpClient: OkHttpClient, gson: Gson) = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
 
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(provideGson()))
-            .build()
 
-    }
-
+    @Requests
     @Provides
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         stethoInterceptor: StethoInterceptor,
         chuckInterceptor: ChuckInterceptor,
-        prefDataSource: PrefDataSource
+        @Requests headerInterceptor: Interceptor,
+        authenticator: Authenticator
     ): OkHttpClient {
         val httpClientBuilder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
@@ -69,8 +72,8 @@ class NetworkModule {
             httpClientBuilder.addInterceptor(httpLoggingInterceptor)
             httpClientBuilder.addNetworkInterceptor(stethoInterceptor)
         }
-        httpClientBuilder.addInterceptor(provideAuthInterceptor())
-        httpClientBuilder.addNetworkInterceptor(provideHeaderInterceptor(prefDataSource))
+        httpClientBuilder.authenticator(authenticator)
+        httpClientBuilder.addNetworkInterceptor(headerInterceptor)
             .readTimeout(20, TimeUnit.SECONDS)
             .connectTimeout(20, TimeUnit.SECONDS)
 
@@ -111,13 +114,16 @@ class NetworkModule {
         ChuckInterceptor(application.applicationContext)
 
 
+    @Requests
     @Provides
     @Singleton
     fun provideHeaderInterceptor(dataStoreSource: PrefDataSource) = Interceptor { chain ->
         val token = dataStoreSource.getToken()
         var request = chain.request()
         request = request.newBuilder()
-            .addHeader(AUTHORIZATION, "${Constant.BEARER} $token")
+            .addHeader(AUTHORIZATION, "$BEARER $token")
+            .addHeader(ACCEPT, APP_JSON)
+            .addHeader(CONTENT_TYPE, APPLICATION_X_WWWW_FORM)
             .build()
         Timber.d(request.headers.toString())
         chain.proceed(request)
@@ -126,27 +132,15 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor() =
+    fun provideAuthenticator(prefDataSource: PrefDataSource, authService: AuthService) =
         object : Authenticator {
-            override fun authenticate(route: Route?, response: Response): Request? {
-                val service = Utils.getRetrofitManualInjection().create(AuthService::class.java)
-                val token = service.authenticate()
+            override fun authenticate(route: Route?, response: Response): Request {
+                val token = authService.authenticate().execute().body()!!.accessToken!!
+                prefDataSource.saveToken(token = token)
                 return response.request.newBuilder()
-                    .header(AUTHORIZATION, "${Constant.BEARER} ${token.accessToken}")
+                    .header(AUTHORIZATION, "$BEARER $token")
                     .build()
             }
-//            override fun intercept(chain: Interceptor.Chain): Response {
-//                val response = chain.proceed(chain.request())
-//                if (response.code == NOT_AUTHORIZED) {
-
-//                    MainScope().launch(IO) {
-//                        service.authenticate()
-//                    }
-//                }
-//
-//                return response
-//            }
-
         }
 
 

@@ -1,13 +1,8 @@
 package com.bironader.musicsearch.injection
 
-import com.bironader.musicsearch.busniness.repositories.abstraction.AuthenticationRepository
-import com.bironader.musicsearch.busniness.repositories.impl.AuthenticationRepositoryImpl
-import com.bironader.musicsearch.busniness.usecases.abstraction.AuthenticationUseCase
-import com.bironader.musicsearch.busniness.usecases.impl.AuthenticationUseCaseImpl
 import com.bironader.musicsearch.framework.datasource.remote.AuthService
-import com.bironader.musicsearch.framework.datasource.remote.abstraction.AuthDataSource
 import com.bironader.musicsearch.framework.datasource.remote.abstraction.PrefDataSource
-import com.bironader.musicsearch.framework.datasource.remote.impl.AuthDataSourceImpl
+import com.bironader.musicsearch.injection.Annotations.RefreshToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,29 +15,8 @@ import javax.inject.Singleton
 class AuthenticationProviderModule {
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService =
+    fun provideAuthService(@RefreshToken retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
 
-
-    @Singleton
-    @Provides
-    fun provideAuthDataSource(authService: AuthService): AuthDataSource =
-        AuthDataSourceImpl(authService)
-
-    @Singleton
-    @Provides
-    fun provideAuthRepo(
-        dataSource: AuthDataSource,
-        prefDataSource: PrefDataSource
-    ): AuthenticationRepository =
-        AuthenticationRepositoryImpl(dataSource, prefDataSource)
-
-
-    @Singleton
-    @Provides
-    fun provideAuthUseCase(
-        authenticationRepository: AuthenticationRepository, prefDataSource: PrefDataSource
-    ): AuthenticationUseCase =
-        AuthenticationUseCaseImpl(authenticationRepository, prefDataSource)
 
 }
