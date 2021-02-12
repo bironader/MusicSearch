@@ -1,9 +1,9 @@
-package com.bironader.musicsearch.framework.presentaion.splash
+package com.bironader.musicsearch.framework.presentation.musiclist
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : ViewModel() {
+class MusicListViewModel @Inject constructor() : ViewModel() {
 }

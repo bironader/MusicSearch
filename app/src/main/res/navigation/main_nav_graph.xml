@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/musicListFragment"
-        android:name="com.bironader.musicsearch.framework.presentaion.musiclist.MusicListFragment"
+        android:name="com.bironader.musicsearch.framework.presentation.musiclist.MusicListFragment"
         android:label="MusicListFragment" />
 </navigation>

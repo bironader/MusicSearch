@@ -1,4 +1,4 @@
-package com.bironader.musicsearch.framework.presentaion.musiclist.widget
+package com.bironader.musicsearch.framework.presentation.musiclist.widget
 
 import android.content.Context
 import android.util.AttributeSet

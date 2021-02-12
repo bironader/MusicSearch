@@ -1,4 +1,4 @@
-package com.bironader.musicsearch.framework.presentaion.base
+package com.bironader.musicsearch.framework.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

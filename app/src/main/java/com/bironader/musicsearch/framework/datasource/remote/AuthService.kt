@@ -12,5 +12,5 @@ import retrofit2.http.POST
 interface AuthService {
 
     @POST(TOKEN)
-    suspend fun authenticate(@Header(GATEWAY_KEY) gateWayKey: String = GATWAY_KEY): Authentication
+     fun authenticate(@Header(GATEWAY_KEY) gateWayKey: String = GATWAY_KEY): Authentication
 }

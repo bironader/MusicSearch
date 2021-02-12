@@ -6,6 +6,7 @@ import com.bironader.musicsearch.busniness.usecases.abstraction.AuthenticationUs
 import com.bironader.musicsearch.busniness.usecases.impl.AuthenticationUseCaseImpl
 import com.bironader.musicsearch.framework.datasource.remote.AuthService
 import com.bironader.musicsearch.framework.datasource.remote.abstraction.AuthDataSource
+import com.bironader.musicsearch.framework.datasource.remote.abstraction.PrefDataSource
 import com.bironader.musicsearch.framework.datasource.remote.impl.AuthDataSourceImpl
 import dagger.Module
 import dagger.Provides
@@ -30,13 +31,18 @@ class AuthenticationProviderModule {
 
     @Singleton
     @Provides
-    fun provideAuthRepo(dataSource: AuthDataSource): AuthenticationRepository =
-        AuthenticationRepositoryImpl(dataSource)
+    fun provideAuthRepo(
+        dataSource: AuthDataSource,
+        prefDataSource: PrefDataSource
+    ): AuthenticationRepository =
+        AuthenticationRepositoryImpl(dataSource, prefDataSource)
 
 
     @Singleton
     @Provides
-    fun provideAuthUseCase(authenticationRepository: AuthenticationRepository): AuthenticationUseCase =
-        AuthenticationUseCaseImpl(authenticationRepository)
+    fun provideAuthUseCase(
+        authenticationRepository: AuthenticationRepository, prefDataSource: PrefDataSource
+    ): AuthenticationUseCase =
+        AuthenticationUseCaseImpl(authenticationRepository, prefDataSource)
 
 }

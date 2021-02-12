@@ -12,7 +12,7 @@ object Versions {
     const val APP_COMPAT = "1.2.0"
     const val MATERIAL = "1.3.0-alpha04"
     const val BUILD_TOOLS = "4.1.1"
-    const val OKHTTP = "3.14.0"
+    const val OKHTTP = "4.7.2"
     const val GSON = "2.8.6"
     const val STETHO = "1.5.1"
     const val TIMBER = "4.1.2"

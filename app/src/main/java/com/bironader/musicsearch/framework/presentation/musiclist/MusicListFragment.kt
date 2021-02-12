@@ -1,11 +1,11 @@
-package com.bironader.musicsearch.framework.presentaion.musiclist
+package com.bironader.musicsearch.framework.presentation.musiclist
 
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.appcompat.widget.SearchView
 import com.bironader.musicsearch.R
 import com.bironader.musicsearch.databinding.FragmentMusicListBinding
-import com.bironader.musicsearch.framework.presentaion.base.BaseFragment
+import com.bironader.musicsearch.framework.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
