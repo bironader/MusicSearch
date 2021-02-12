@@ -1,4 +1,4 @@
-package com.bironader.musicsearch.framework.presentaion
+package com.bironader.musicsearch.framework.presentaion.splash
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

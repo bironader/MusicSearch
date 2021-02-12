@@ -13,6 +13,6 @@ interface SearchService {
     @GET(SEARCH)
     suspend fun searchForMusic(
         @Query(QUERY) query: String,
-        @Query(LIMIT) limit: Int = 2
+        @Query(LIMIT) limit: Int = 20
     ): List<Music>
 }
