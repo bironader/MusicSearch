@@ -1,14 +1,19 @@
 package com.bironader.musicsearch.framework.presentation.base
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.bironader.musicsearch.R
 import com.bironader.musicsearch.framework.utils.ErrorTypes
+import com.bironader.musicsearch.framework.utils.getMessage
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
@@ -40,8 +45,10 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
 
     protected fun handleErrors(error: ErrorTypes) {
-//        SnackbarUtils.with(binding.root)
-//            .setMessage(error.getMessage(requireContext()))
+        Snackbar.make(binding.root, error.getMessage(requireContext()), Snackbar.LENGTH_LONG)
+            .setActionTextColor(ResourcesCompat.getColor(resources, R.color.red_500, null))
+            .show()
+
     }
 
 

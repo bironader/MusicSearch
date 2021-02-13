@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="item"
+            type="com.bironader.musicsearch.busniness.entites.MusicDomainModel" />
     </data>
 
 
@@ -24,11 +27,12 @@
             <ImageView
                 android:id="@+id/music_img"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:background="@color/white"
                 android:scaleType="centerCrop"
+                app:imageUrl="@{item.smallImage}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,6 +46,19 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:text="@{item.artist}"
+                android:textSize="11sp"
+                android:textStyle="italic"
+                tools:ignore="SmallSp"
+                tools:text="By Nicholas Kristof" />
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{item.type}"
                 android:textSize="11sp"
                 android:textStyle="italic"
                 tools:ignore="SmallSp"
@@ -57,6 +74,7 @@
                 android:lineSpacingExtra="4dp"
                 android:maxWidth="300dp"
                 android:maxLines="2"
+                android:text="@{item.title}"
                 tools:text="That Mysterious Monolith in the Utah Desert? It’s Gone, Officials Say" />
 
         </LinearLayout>

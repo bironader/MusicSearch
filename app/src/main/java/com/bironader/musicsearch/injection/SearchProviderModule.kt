@@ -4,15 +4,15 @@ import com.bironader.musicsearch.busniness.repositories.abstraction.GetMusicRepo
 import com.bironader.musicsearch.busniness.repositories.impl.GetMusicRepoImpl
 import com.bironader.musicsearch.busniness.usecases.abstraction.GetMusicUseCase
 import com.bironader.musicsearch.busniness.usecases.impl.GetMusicUseCaseImpl
-import com.bironader.musicsearch.framework.datasource.remote.SearchService
+import com.bironader.musicsearch.framework.datasource.remote.abstraction.Authenticator
+import com.bironader.musicsearch.framework.datasource.remote.abstraction.PrefDataSource
 import com.bironader.musicsearch.framework.datasource.remote.abstraction.SearchDataSource
+import com.bironader.musicsearch.framework.datasource.remote.impl.AuthenticatorImpl
 import com.bironader.musicsearch.framework.datasource.remote.impl.SearchDataSourceImpl
-import com.bironader.musicsearch.injection.Annotations.Requests
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -21,14 +21,17 @@ class SearchProviderModule {
 
     @Singleton
     @Provides
-    fun provideSearchApi(@Requests retrofit: Retrofit): SearchService =
-        retrofit.create(SearchService::class.java)
+    fun provideAuthenticator(prefDataSource: PrefDataSource): Authenticator =
+        AuthenticatorImpl(prefDataSource)
 
 
     @Singleton
     @Provides
-    fun providerSearchDataSource(searchService: SearchService): SearchDataSource =
-        SearchDataSourceImpl(searchService)
+    fun providerSearchDataSource(
+        prefDataSource: PrefDataSource,
+        authenticator: Authenticator
+    ): SearchDataSource =
+        SearchDataSourceImpl(prefDataSource, authenticator)
 
     @Singleton
     @Provides

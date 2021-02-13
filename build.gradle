@@ -20,7 +20,6 @@ buildscript {
         classpath HILT
         classpath SAFE_ARGS
         classpath JACOCO
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 
         // NOTE: Do not place your application dependencies here; they belong

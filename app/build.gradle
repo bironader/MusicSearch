@@ -53,13 +53,7 @@ dependencies {
     implementation APP_COMPAT
     implementation CONSTRAINT_LAYOUT
     implementation HILT
-    implementation OKHTTP
-    implementation OKHTTP_LOGGING
-    implementation RETROFIT
     implementation GSON
-    implementation GSON_CONVERTER
-    implementation TIMBER
-    implementation STETHO
     implementation MATERIAL
     implementation NAV_FRAGMENT
     implementation NAV_UI
@@ -76,8 +70,7 @@ dependencies {
 
 
 
-    debugImplementation CHUCK
-    releaseImplementation CHUCK_NO_OP
+
     kapt AnnotationProcessing.HILT_COMPILER
     kapt AnnotationProcessing.HILT_LIFECYCLE_COMPLIER
     kapt AnnotationProcessing.GLIDE_COMPILER

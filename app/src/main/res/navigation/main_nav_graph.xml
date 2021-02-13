@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph.xml"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph.xml"
     app:startDestination="@id/musicListFragment">
 
     <fragment
         android:id="@+id/musicListFragment"
         android:name="com.bironader.musicsearch.framework.presentation.musiclist.MusicListFragment"
-        android:label="MusicListFragment" />
+        android:label="MusicListFragment"
+        tools:layout="@layout/fragment_music_list" >
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_musicListFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.bironader.musicsearch.framework.presentation.musicdetail.MusicDetailFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_music_detail">
+        <argument
+            android:name="music"
+            app:argType="com.bironader.musicsearch.busniness.entites.MusicDomainModel" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

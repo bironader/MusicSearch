@@ -4,4 +4,7 @@
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="search_title">Search</string>
+    <string name="query_not_valid">Search query must not be empty or less than 2 char</string>
+    <string name="search_for_music">Search for music</string>
+    <string name="empty_result">No result containing your search query</string>
 </resources>

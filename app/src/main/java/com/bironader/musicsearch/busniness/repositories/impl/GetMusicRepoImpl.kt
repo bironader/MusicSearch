@@ -11,5 +11,5 @@ import javax.inject.Inject
 class GetMusicRepoImpl @Inject constructor(private val searchDataSource: SearchDataSource) :
     GetMusicRepository {
     override suspend fun getMusic(query: String) =
-        flow { emit(searchDataSource.searchForMusic(query)) }
+        searchDataSource.searchForMusic(query)
 }
