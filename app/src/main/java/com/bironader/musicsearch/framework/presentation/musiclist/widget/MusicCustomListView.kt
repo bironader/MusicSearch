@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
+import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import com.example.nyarticles.framework.utils.ItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -20,11 +21,16 @@ class MusicCustomListView(context: Context, attributes: AttributeSet) :
         this.adapter = musicListAdapter
     }
 
-    fun showItems(list: List<MusicDomainModel>) = musicListAdapter.submitList(list)
+    fun showItems(list: List<MusicDomainModel>) {
+        musicListAdapter.submitList(list)
+
+    }
+
 
     fun setOnItemClick(itemClickListener: ItemClickListener<MusicDomainModel>) {
         musicListAdapter.itemClickListener = itemClickListener
     }
+
     fun clean() {
         this.adapter = null
     }

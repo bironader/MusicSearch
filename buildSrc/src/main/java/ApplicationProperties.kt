@@ -1,6 +1,6 @@
 object ApplicationProperties {
 
-    const val PACAKGE_ID = "com.example.nyarticles"
+    const val PACKAGE_ID = "com.bironader.musicsearch"
     const val MIN_SDK_VERSION = 16
     const val TARGET_SDK_VERSION = 30
     const val COMPLIED_SDK_VERSION = 30

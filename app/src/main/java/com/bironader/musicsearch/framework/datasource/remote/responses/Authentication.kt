@@ -9,6 +9,6 @@ data class Authentication(
     @SerializedName("expiresIn")
     val expiresIn: String?,
     @SerializedName("tokenType")
-    val tokenType: String = "Bearer",
+    val tokenType: String = "Bearer"
 
     )

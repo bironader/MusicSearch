@@ -17,6 +17,7 @@ import com.bironader.musicsearch.R
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
 import com.bironader.musicsearch.databinding.FragmentMusicListBinding
 import com.bironader.musicsearch.framework.presentation.base.BaseFragment
+import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import com.bironader.musicsearch.framework.utils.Resource
 import com.bironader.musicsearch.framework.utils.Resource.*
 import com.bironader.musicsearch.framework.utils.getMessage
@@ -39,6 +40,7 @@ class MusicListFragment : BaseFragment<FragmentMusicListBinding>(), SearchView.O
     override fun bindViews() {
         binding.musicList.setOnItemClick(this)
         setHasOptionsMenu(true)
+
     }
 
     override fun observe() {
@@ -49,15 +51,22 @@ class MusicListFragment : BaseFragment<FragmentMusicListBinding>(), SearchView.O
                     binding.musicList.showItems(it.data)
                     binding.isEmpty = it.data.isEmpty()
                     binding.progressCircular.visibility = GONE
+                    EspressoIdlingResource.decrement()
+
+
                 }
                 is Failure -> {
                     handleErrors(it.throwable.getType())
                     binding.progressCircular.visibility = GONE
+                    EspressoIdlingResource.decrement()
 
                 }
-                is Loading -> binding.progressCircular.visibility = VISIBLE
+                is Loading -> {
+                    binding.progressCircular.visibility = VISIBLE
+                }
 
             }
+
         })
 
 
@@ -75,13 +84,14 @@ class MusicListFragment : BaseFragment<FragmentMusicListBinding>(), SearchView.O
         searchView.queryHint = getString(R.string.search_for_music)
         menuItem.expandActionView()
         super.onCreateOptionsMenu(menu, inflater)
-
     }
 
-    override fun onQueryTextSubmit(query: String?) = true
+    override fun onQueryTextSubmit(query: String?)  = true
 
     override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText?.isNotEmpty()!!)  EspressoIdlingResource.increment()
         viewModel.setQuery(if (newText.isNullOrEmpty()) "" else newText)
+
         return true
     }
 

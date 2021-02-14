@@ -28,9 +28,9 @@ object Utils {
         val response = StringBuffer()
         try {
             this.inputStream.bufferedReader().use { reader ->
-                var `in` = ""
-                while (reader.readLine().also { `in` = it } != null)
-                    response.append(`in`)
+                var input = ""
+                while (reader.readLine().also { input = it } != null)
+                    response.append(input)
             }
         } catch (throwable: Throwable) {
             Log.d("AuthenticatorImpl", throwable.message.toString())

@@ -1,5 +1,6 @@
 import static ApplicationProperties.*
 import static Dependencies.*
+import static Versions.JACOCO
 
 plugins {
     id 'com.android.application'
@@ -8,14 +9,97 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id "org.sonarqube" version "2.7"
+    id 'jacoco'
+
 }
 
+
+jacoco {
+    toolVersion = JACOCO
+}
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+    }
+
+    def fileFilter = [
+            // data binding
+            'android/databinding/**/*.class',
+            '**/android/databinding/*Binding.class',
+            '**/android/databinding/*',
+            '**/androidx/databinding/*',
+            '**/BR.*',
+            // android
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            // dagger
+            '**/*_MembersInjector.class',
+            '**/Dagger*Component.class',
+            '**/Dagger*Component$Builder.class',
+            '**/*Module_*Factory.class',
+            '**/*_Factory*.*',
+            '**/*Module*.*',
+            '**/*Dagger*.*',
+            '**/*Hilt*.*',
+            '**/di/*Module*.*',
+            '**/*Module*.*',
+            // kotlin
+            '**/*MapperImpl*.*',
+            '**/*$ViewInjector*.*',
+            '**/*$ViewBinder*.*',
+            '**/BuildConfig.*',
+            '**/*Component*.*',
+            '**/*BR*.*',
+            '**/Manifest*.*',
+            '**/*$Lambda$*.*',
+            '**/*Companion*.*',
+            '**/*Module*.*',
+            '**/*Dagger*.*',
+            '**/*Hilt*.*',
+            '**/*MembersInjector*.*',
+            '**/*_MembersInjector.class',
+            '**/*_Factory*.*',
+            '**/*_Provide*Factory*.*',
+            '**/*Extensions*.*',
+            // sealed and data classes
+            '**/*$Result.*',
+            '**/*$Result$*.*'
+    ]
+    def debugTree = fileTree(dir: "$project.buildDir/generated", excludes: fileFilter)
+    def mainSrc = fileTree(dir: "$project.projectDir/src/main/java", excludes: fileFilter)
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
+    ]))
+    jacoco {
+        toolVersion = JACOCO
+    }
+
+    tasks.withType(Test) {
+        jacoco.includeNoLocationClasses = true
+        jacoco.excludes = ['jdk.internal.*']
+    }
+
+
+}
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion COMPLIED_SDK_VERSION
+    buildToolsVersion BUILD_TOOL_VERSION
 
     defaultConfig {
-        applicationId "com.bironader.musicsearch"
+        applicationId
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode VERSION_CODE
@@ -28,6 +112,9 @@ android {
     }
 
     buildTypes {
+        debug{
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -42,6 +129,14 @@ android {
     }
     buildFeatures {
         dataBinding = true
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
@@ -69,8 +164,6 @@ dependencies {
     implementation ESPRESSO_IDLING_RESOURCE
 
 
-
-
     kapt AnnotationProcessing.HILT_COMPILER
     kapt AnnotationProcessing.HILT_LIFECYCLE_COMPLIER
     kapt AnnotationProcessing.GLIDE_COMPILER
@@ -87,5 +180,21 @@ dependencies {
     androidTestImplementation TestDependencies.ANDROID_JUNIT_KTX
     debugImplementation(TestDependencies.TEST_FRAGMENT) {
         exclude group: 'androidx.test', module: 'monitor'
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'Music-Search'
+        property "sonar.projectDescription", "Music app with instant search"
+        property "sonar.projectKey", PACKAGE_ID
+        property 'sonar.projectVersion', VERSION_CODE
+        property 'sonar.sources', 'src/main/java'
+        property 'sonar.language', 'kotlin'
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/coverage/debug/report.xml"
+        property 'sonar.sourceEncoding', 'UTF-8'
+
+
     }
 }

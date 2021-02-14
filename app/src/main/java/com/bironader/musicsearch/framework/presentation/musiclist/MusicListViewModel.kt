@@ -3,6 +3,7 @@ package com.bironader.musicsearch.framework.presentation.musiclist
 import androidx.lifecycle.*
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
 import com.bironader.musicsearch.busniness.usecases.abstraction.GetMusicUseCase
+import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import com.bironader.musicsearch.framework.utils.Resource
 import com.bironader.musicsearch.framework.utils.Resource.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,6 +48,7 @@ class MusicListViewModel @Inject constructor(private val getMusicUseCase: GetMus
                         .onStart {
                             _stateLiveData.value = Loading()
                         }
+
                         .retryWhen { cause, attempt ->
                             return@retryWhen cause is HttpRetryException && attempt < 3
                         }
@@ -54,7 +56,8 @@ class MusicListViewModel @Inject constructor(private val getMusicUseCase: GetMus
                             _stateLiveData.value = Failure(throwable)
                             emitAll(emptyFlow())
                         }
-                } // we only care for the last emission
+                }
+                // we only care for the last emission
                 .collect {
                     _stateLiveData.value = Success(it)
                 }

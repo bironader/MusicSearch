@@ -25,6 +25,7 @@ object GlideUtils {
             .transform(RoundedCorners(16))
             .error(R.drawable.ic_broken_image)
             .transition(DrawableTransitionOptions.withCrossFade())
+
             .into(imageView)
     }
 
