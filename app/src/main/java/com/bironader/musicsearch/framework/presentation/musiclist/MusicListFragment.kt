@@ -1,29 +1,19 @@
 package com.bironader.musicsearch.framework.presentation.musiclist
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bironader.musicsearch.R
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
 import com.bironader.musicsearch.databinding.FragmentMusicListBinding
 import com.bironader.musicsearch.framework.presentation.base.BaseFragment
-import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
-import com.bironader.musicsearch.framework.utils.Resource
 import com.bironader.musicsearch.framework.utils.Resource.*
-import com.bironader.musicsearch.framework.utils.getMessage
 import com.bironader.musicsearch.framework.utils.getType
 import com.example.nyarticles.framework.utils.ItemClickListener
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -51,14 +41,12 @@ class MusicListFragment : BaseFragment<FragmentMusicListBinding>(), SearchView.O
                     binding.musicList.showItems(it.data)
                     binding.isEmpty = it.data.isEmpty()
                     binding.progressCircular.visibility = GONE
-                    EspressoIdlingResource.decrement()
 
 
                 }
                 is Failure -> {
                     handleErrors(it.throwable.getType())
                     binding.progressCircular.visibility = GONE
-                    EspressoIdlingResource.decrement()
 
                 }
                 is Loading -> {
@@ -89,9 +77,7 @@ class MusicListFragment : BaseFragment<FragmentMusicListBinding>(), SearchView.O
     override fun onQueryTextSubmit(query: String?)  = true
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if(newText?.isNotEmpty()!!)  EspressoIdlingResource.increment()
         viewModel.setQuery(if (newText.isNullOrEmpty()) "" else newText)
-
         return true
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
-import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import com.example.nyarticles.framework.utils.ItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

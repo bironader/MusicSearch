@@ -5,7 +5,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
@@ -17,7 +16,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bironader.musicsearch.R
 import com.bironader.musicsearch.framework.presentation.MainActivity
 import com.bironader.musicsearch.framework.presentation.musiclist.widget.MusicListAdapter
-import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -35,7 +33,7 @@ class MusicListFragmentTest {
     @Before
     fun setup() {
         scenario = ActivityScenario.launch(MainActivity::class.java)
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+//        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 
     @Test
@@ -87,7 +85,7 @@ class MusicListFragmentTest {
 
     @After
     fun tearDown() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+//        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
 
     }
 }

@@ -3,7 +3,6 @@ package com.bironader.musicsearch.framework.presentation.musiclist
 import androidx.lifecycle.*
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
 import com.bironader.musicsearch.busniness.usecases.abstraction.GetMusicUseCase
-import com.bironader.musicsearch.framework.utils.EspressoIdlingResource
 import com.bironader.musicsearch.framework.utils.Resource
 import com.bironader.musicsearch.framework.utils.Resource.*
 import dagger.hilt.android.lifecycle.HiltViewModel
