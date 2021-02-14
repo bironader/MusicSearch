@@ -38,3 +38,7 @@ Android application with instant search for music
 - Open localhost:9000 panel
 - Run ```gradlew jacocoTestReport sonarqube``` in android studio terminal
 
+
+## Sonar Qube Report
+<img src="screenshots/sonar.png">
+
