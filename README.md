@@ -7,7 +7,6 @@
 <img src="screenshots/list.png" width = 200>
 <img src="screenshots/details.png" width = 200>
 
-</>
 
 ## About
 Android application with instant search for music
