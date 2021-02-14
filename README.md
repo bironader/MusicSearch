@@ -1,11 +1,11 @@
 # Music search Android Application
 
 <p float="left">
-<img src="screenshots/splash.jpg" width = 200>
-<img src="screenshots/empty.jpg" width = 200>
-<img src="screenshots/main.jpg" width = 200>
-<img src="screenshots/list.jpg" width = 200>
-<img src="screenshots/details.jpg" width = 200>
+<img src="screenshots/splash.png" width = 200>
+<img src="screenshots/empty.png" width = 200>
+<img src="screenshots/main.png" width = 200>
+<img src="screenshots/list.png" width = 200>
+<img src="screenshots/details.png" width = 200>
 
 </>
 
