@@ -1,5 +1,6 @@
 package com.bironader.musicsearch.framework.presentation.musiclist
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.bironader.musicsearch.busniness.entites.MusicDomainModel
 import com.bironader.musicsearch.busniness.usecases.abstraction.GetMusicUseCase
@@ -57,7 +58,7 @@ class MusicListViewModel @Inject constructor(private val getMusicUseCase: GetMus
                         }
                 }
                 // we only care for the last emission
-                .collect {
+                .collectLatest {
                     _stateLiveData.value = Success(it)
                 }
         }
